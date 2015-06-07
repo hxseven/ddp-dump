@@ -1,0 +1,38 @@
+{
+  "name": "ddp-dump",
+  "version": "0.1.0",
+  "description": "Command line utility to dump Meteor collections by using Meteor's DDP (Distributed Data Protocol).",
+  "author": "Jonas David John <jonas@jonasjohn.de> (http://www.jonasjohn.de)",
+  "contributors": [],
+  "license": "MIT",
+  "homepage": "https://github.com/hxseven/ddp-dump",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hxseven/ddp-dump.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hxseven/ddp-dump/issues"
+  },
+  "keywords": [
+    "ddp",
+    "meteor",
+    "backup",
+    "export",
+    "dump",
+    "json",
+    "cli"
+  ],
+  "dependencies": {
+    "async": "^1.2.0",
+    "ddp": "^0.11.0",
+    "nopt": "^3.0.2"
+  },
+  "main": "index.js",
+  "bin": {
+    "ddp-dump": "./index.js"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

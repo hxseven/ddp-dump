@@ -1,0 +1,58 @@
+env:
+  node: true
+
+rules:
+  ## 2 space indentation
+  indent:
+    - 2
+    - 2
+
+  ## disallow unreachable code
+  no-unreachable: 2
+
+  # Code style
+  brace-style: 2
+  space-after-keywords: 2
+
+  ## disallow use of reserved words as keys like enum, class
+  no-reserved-keys: 2
+
+  # Stylistic Issues
+  # list: https://github.com/eslint/eslint/tree/master/docs/rules#stylistic-issues
+  ## use single quote, we can use double quote when escape chars
+  quotes:
+    - 2
+    - "single"
+    - "avoid-escape"
+
+  linebreak-style:
+    - 2
+    - unix
+
+  ## put semi-colon
+  semi: 2
+
+  ## max 80 length
+  max-len:
+    - 2
+    - 80
+    - 2
+
+  ## require spaces operator like var sum = 1 + 1;
+  space-infix-ops: 2
+
+  # Strict Mode
+  # list: https://github.com/eslint/eslint/tree/master/docs/rules#strict-mode
+  ## 'use strict' on top
+  strict:
+    - 2
+    - "global"
+
+  # I think the use of process.exit() is valid for a command line tool like this
+  no-process-exit: 0
+
+  # Allow functions to be after their call (partially made sense to
+  # me in this project)
+  no-use-before-define:
+    - 1
+    - "nofunc"
