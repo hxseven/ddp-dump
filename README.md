@@ -105,10 +105,6 @@ is actually much more lightweight. And now I'm too lazy to change it again ;)
 Thanks to the Authors of the [ddp Node.js module][6] which enabled me to
 write this tool.
 
-## Changelog
-
-0.1.0: Initial release
-
 ## License
 
 Copyright © 2015 Jonas David John

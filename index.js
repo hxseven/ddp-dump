@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict';
 
 var fs = require('fs');
@@ -292,7 +293,12 @@ function receivedLastDDPMessage(){
     });
   }
 
-  async.map(Object.keys(pathToCollectionMapping), writeData, finish);
+  var filepaths = Object.keys(pathToCollectionMapping);
+  if (filepaths.length === 0){
+    info('No collections received');
+  }
+
+  async.map(filepaths, writeData, finish);
 }
 
 function writeData(path, callback){
