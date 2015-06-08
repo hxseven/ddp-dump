@@ -1,4 +1,6 @@
 # ddp-dump
+[![Current Version](https://img.shields.io/npm/v/ddp-dump.svg)](https://www.npmjs.org/package/ddp-dump)
+[![Dependency Status](https://david-dm.org/hxseven/ddp-dump.svg)](https://david-dm.org/hxseven/ddp-dump)
 
 Command line utility to dump [Meteor][1] collections to JSON by using
 [Meteor's DDP (Distributed Data Protocol)][2].
@@ -8,20 +10,29 @@ capture all data that a Meteor server sends by default.
 
 ## Installation
 
-Install through NPM as local tool:
+Install through NPM into your local repository:
 
 ```bash
-$ npm install ddp-dump
+npm install ddp-dump
+
+# Then call it by using
+./node_modules/.bin/ddp-dump --help
 ```
 or as globally available tool:
 
 ```bash
 $ npm install -g ddp-dump
+
+# Then call it by using
+ddp-dump --help
 ```
 or clone the GIT repository:
 ```bash
 git clone git://github.com/hxseven/ddp-dump.git
 cd ddp-dump && npm install
+
+# Then call it by using
+node . --help
 ```
 
 ## Usage

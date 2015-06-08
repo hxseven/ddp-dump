@@ -137,38 +137,36 @@ function processCliOptions(o){
   // Process output file settings
   o.files = o.output ? o.output : [];
   o.saveToFile = o.files.length > 0;
-
   o.mergeCollections = true;
+}
 
-  if (o.saveToFile){
-    if (o.files[0].indexOf('%s') !== -1){
-      // Handle '%s' output options
-      o.mergeCollections = false;
+function processFileOutputOptions(o){
 
-      if (o.files.length > 1){
-        error('Error: Only one output option is supported when using "%s".');
-        return process.exit(1);
-      }
+  if (o.files[0].indexOf('%s') !== -1){
+    // Handle '%s' output options
+    o.mergeCollections = false;
 
-      // Fill files array with '%s' entry if collections are given
-      if (o.colls.length > 0){
-        o.files = o.colls.map(function(){
-          return o.files[0];
-        });
-      }
-
-    } else if (o.files.length === o.colls.length) {
-      // Write every collection to the matching file
-      o.mergeCollections = false;
-
-    } else if (o.files.length > 1){
-      error('Error: More output files then collections given.');
+    if (o.files.length > 1){
+      error('Error: Only one output option is supported when using "%s".');
       return process.exit(1);
     }
-    // else => only one filepath without %s given
-  }
 
-  return o;
+    // Fill files array with '%s' entry if collections are given
+    if (o.colls.length > 0){
+      o.files = o.colls.map(function(){
+        return o.files[0];
+      });
+    }
+
+  } else if (o.files.length === o.colls.length) {
+    // Write every collection to the matching file
+    o.mergeCollections = false;
+
+  } else if (o.files.length > 1){
+    error('Error: More output files then collections given.');
+    return process.exit(1);
+  }
+  // else => only one filepath without %s given
 }
 
 function printConnectionInfo(o){
@@ -358,7 +356,11 @@ if (options.colls.length === 0 && !options.all){
   return process.exit(1);
 }
 
-options = processCliOptions(options);
+processCliOptions(options);
+
+if (options.saveToFile){
+  processFileOutputOptions(options);
+}
 
 // Create a 'JSON output path' => [collections...] mapping to
 // simplify the export code
