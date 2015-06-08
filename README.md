@@ -2,11 +2,13 @@
 [![Current Version](https://img.shields.io/npm/v/ddp-dump.svg)](https://www.npmjs.org/package/ddp-dump)
 [![Dependency Status](https://david-dm.org/hxseven/ddp-dump.svg)](https://david-dm.org/hxseven/ddp-dump)
 
-Command line utility to dump [Meteor][1] collections to JSON by using
-[Meteor's DDP (Distributed Data Protocol)][2].
+This utility allows you capture all collections that a [Meteor server][1]
+sends out by default or to subscribe to specific Meteor collections.
+The resulting data is exported as JSON and can be merged into one file or
+split into separate files.
 
-It allows you to subscribe and dump a specific collection but can also
-capture all data that a Meteor server sends by default.
+Have a look at the Meteor documentation for more details about the
+[DDP (Distributed Data Protocol)][2].
 
 ## Installation
 

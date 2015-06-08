@@ -107,18 +107,25 @@ function info(){
   log(util.format.apply(null, arguments));
 }
 
-function processCliOptions(o){
+function processWebsocketUrl(wsUrl, o){
+  var u = url.parse(wsUrl);
+  if (u.protocol !== 'wss:' && u.protocol !== 'ws:'){
+    o.error = util.format('Unknown protocol "%s"', u.protocol);
+    return false;
+  }
+  o.ssl = (u.protocol === 'wss:');
+  o.port = u.port;
+  o.host = u.hostname;
+  return true;
+}
 
+function processCliOptions(o){
   // Apply data from an websocket URL
+  // (URLs override host and port options)
   if (o.url){
-    var u = url.parse(o.url);
-    if (u.protocol !== 'wss:' && u.protocol !== 'ws:'){
-      error('Error: Unknown protocol "%s"', u.protocol);
-      return process.exit(1);
+    if (!processWebsocketUrl(o.url, o)){
+      return;
     }
-    o.ssl = (u.protocol === 'wss:');
-    o.port = u.port;
-    o.host = u.hostname;
   }
 
   // Set defaults
@@ -147,8 +154,8 @@ function processFileOutputOptions(o){
     o.mergeCollections = false;
 
     if (o.files.length > 1){
-      error('Error: Only one output option is supported when using "%s".');
-      return process.exit(1);
+      o.error = 'Only one output option is supported when using "%s".';
+      return;
     }
 
     // Fill files array with '%s' entry if collections are given
@@ -163,8 +170,8 @@ function processFileOutputOptions(o){
     o.mergeCollections = false;
 
   } else if (o.files.length > 1){
-    error('Error: More output files then collections given.');
-    return process.exit(1);
+    o.error = 'More output files then collections given.';
+    return;
   }
   // else => only one filepath without %s given
 }
@@ -360,6 +367,11 @@ processCliOptions(options);
 
 if (options.saveToFile){
   processFileOutputOptions(options);
+}
+
+if (options.error){
+  error('Error: %s', options.error);
+  return process.exit(1);
 }
 
 // Create a 'JSON output path' => [collections...] mapping to
