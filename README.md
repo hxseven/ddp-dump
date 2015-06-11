@@ -109,9 +109,9 @@ and I also don't expect that the option list will change that often.
 
 Actually I used promises in the first prototype, but then somehow I got the
 impression that the [promises library I used][4] had a lot of dependencies and
-that [async][5] is more lightweight and so I switched to it. But then as I
+that [async][5] was more lightweight and so I switched to it. However as I
 wrote this text and verified that again, I noticed that the promises module
-is actually much more lightweight. And now I'm too lazy to change it again ;)
+is actually much more lightweight. But now I'm too lazy to change it again ;)
 
 ## Credits
 

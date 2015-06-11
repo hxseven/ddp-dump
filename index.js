@@ -207,6 +207,13 @@ function writeLog(path, data, compress, cb){
 }
 
 function writeJSON(path, data, compress, cb){
+
+  if (Object.keys(data).length === 0){
+    info('Skipped empty file "%s"', path);
+    cb();
+    return;
+  }
+
   info('Writing data to file "%s"', path);
   fs.writeFile(path, stringify(data, compress), cb);
 }
@@ -301,6 +308,10 @@ function receivedLastDDPMessage(){
   var filepaths = Object.keys(pathToCollectionMapping);
   if (filepaths.length === 0){
     info('No collections received');
+  }
+
+  if (options.saveToFile){
+    info('Writing collections to file(s):');
   }
 
   async.map(filepaths, writeData, finish);
