@@ -47,6 +47,8 @@ Options:
   -h, --host      Hostname - default: localhost
   -p, --port      Port - default: 80 or 433 if SSL is true
   -s, --ssl       SSL - default: false
+  -U, --user      Username
+  -P, --password  Password
   -a, --all       Include all collections that are received
   -o, --output    Output JSON file(s), otherwise will dump to stdout
                   Note: %s will be replaced by the collection name
@@ -57,7 +59,7 @@ Options:
                   if -all is set, otherwise 0
   -c, --compress  Compress JSON - default: false
   -d, --ddpv      DDP Protocol Version (1, pre2, pre1) - default: 1
-  -k, --sockjs    Use the SockJs protocol - default: false
+  -S, --sockjs    Use the SockJs protocol - default: false
   -?, --help      Display this help message and exit
   -v, --verbose   Verbose mode
       --debug     Debug mode
@@ -86,11 +88,10 @@ Merge multiple collections to one JSON:
 Save collections to separate JSON files:
   ddp-dump -h meteor.local -o cats.json -o birds.json cats birds
   ddp-dump -h meteor.local -o %s.json cats birds
+
+Authenticate using plain-text login data:
+  ddp-dump -h meteor.local -U user -P pwd privateCatColl -o cats.json
 ```
-
-## Unimplemented Features
-
-* Authentication
 
 ## Design Decisions
 

@@ -24,6 +24,8 @@ var cmdOptions = {
   'host': String,
   'port': Number,
   'ssl': Boolean,
+  'user': String,
+  'password': String,
   'output': [String, Array],
   'all': Boolean,
   'timeout': Number,
@@ -41,12 +43,14 @@ var shorthands = {
   'h': ['--host'],
   'p': ['--port'],
   's': ['--ssl'],
+  'U': ['--user'],
+  'P': ['--password'],
   'o': ['--output'],
   'a': ['--all'],
   't': ['--timeout'],
   'c': ['--compress'],
   'd': ['--ddpv'],
-  'k': ['--sockjs'],
+  'S': ['--sockjs'],
   'v': ['--verbose'],
   'V': ['--version'],
   '?': ['--help']
@@ -65,6 +69,8 @@ function printOptions(){
   log('  -h, --host      Hostname - default: localhost');
   log('  -p, --port      Port - default: 80 or 433 if SSL is true');
   log('  -s, --ssl       SSL - default: false');
+  log('  -U, --user      Username');
+  log('  -P, --password  Password');
   log('  -a, --all       Include all collections that are received');
   log('  -o, --output    Output JSON file(s), otherwise will dump to stdout');
   log('                  Note: %s will be replaced by the collection name');
@@ -75,7 +81,7 @@ function printOptions(){
   log('                  if -all is set, otherwise 0');
   log('  -c, --compress  Compress JSON - default: false');
   log('  -d, --ddpv      DDP Protocol Version (1, pre2, pre1) - default: 1');
-  log('  -k, --sockjs    Use the SockJs protocol - default: false');
+  log('  -S, --sockjs    Use the SockJs protocol - default: false');
   log('  -?, --help      Display a help message and exit.');
   log('  -v, --verbose   Verbose mode.');
   log('      --debug     Debug mode.');
@@ -273,7 +279,7 @@ function waitForTimeout(){
   }, options.timeout);
 }
 
-function processSubscribtionResults(err, results){
+function processSubResults(err, results){
   results.map(function(r){
     if (r.err !== undefined){
       // Exit here?
@@ -342,6 +348,23 @@ function finish(err){
     log(err);
   }
   ddp.close();
+}
+
+function login(user, password, cb){
+  var loginData = {
+    user: { username: user },
+    password: password
+  };
+
+  info('Trying to login as user "%s"', user);
+
+  ddp.call('login', [ loginData ], function (err, result) {
+    if (err !== undefined){
+      cb('Login error', err);
+    } else {
+      cb(null, result);
+    }
+  });
 }
 
 /* Main application logic */
@@ -427,11 +450,31 @@ ddp.connect(function(ddpErr) {
 
   info('DDP connection was successful');
 
-  if (options.colls.length === 0){
-    waitForTimeout();
+  var run = function(){
+    if (options.colls.length === 0){
+      // Wait for DDP to send some collection data
+      waitForTimeout();
+    } else {
+      // Subscribe to all collections given by the user
+      async.map(options.colls, subscribeToCollection, processSubResults);
+    }
+  };
+
+  if (options.user && options.password){
+    login(options.user, options.password, function(err, data){
+      if (err){
+        error(err);
+        error(data);
+        finish();
+      } else {
+        info('Login was successful');
+        info('Received authentication token "%s"', data.token);
+        run();
+      }
+    });
+
   } else {
-    // Subscribe to all collections given by the user
-    async.map(options.colls, subscribeToCollection, processSubscribtionResults);
+    run();
   }
 });
 
