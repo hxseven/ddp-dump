@@ -1,6 +1,6 @@
 {
   "name": "ddp-dump",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Command line utility to dump Meteor collections by using Meteor's DDP (Distributed Data Protocol).",
   "author": "Jonas David John <jonas@jonasjohn.de> (http://www.jonasjohn.de)",
   "contributors": [],
@@ -23,9 +23,9 @@
     "cli"
   ],
   "dependencies": {
-    "async": "^1.2.1",
-    "ddp": "^0.11.0",
-    "nopt": "^3.0.2"
+    "async": "^2.1.4",
+    "ddp": "^0.12.1",
+    "nopt": "^4.0.1"
   },
   "main": "index.js",
   "bin": {
